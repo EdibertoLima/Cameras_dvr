@@ -1,0 +1,88 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <style>
+    canvas {
+      display: block;
+      float: left;
+      transform: scale(1);
+      transform-origin: 0% 0% 0px;
+    }
+
+    .camera {
+      display: block;
+      margin-left: 10px;
+      padding: 0px;
+      width: 352px;
+    }
+
+    #lateral {
+      display: inline;
+      float: left;
+      width: 250px;
+      height: 500px;
+      font-size: 15px;
+    }
+    #videoCanvas{
+      width: 759px;
+      height: 360px;
+    }
+  </style>
+  <title>Cameras DVR </title>
+  <h1 style="text-align: center;">Beto Web cans on </h1>
+  <div id="lateral">
+    <ul>
+      <li id="9001" style="cursor: pointer;" onclick="altercan(9001)">camera1</li>
+      <li>camera2</li>
+      <li>camera3</li>
+    </ul>
+  </div>
+  <div><canvas class="camera1" id="videoCanvas" width="759" height="360"></canvas>
+  </div>
+  <div><canvas class="camera" id="videoCanvas2" width="640" height="360"></canvas></div>
+  <div><canvas class="camera" id="videoCanvas3" width="640" height="360"></canvas></div>
+
+
+  <script type="text/javascript" src="jsmpeg.min.js"></script>
+  <script type="text/javascript">
+    /*
+    var canvas = document.getElementById('videoCanvas');
+
+    var ws = new WebSocket("ws://localhost:9000")
+
+    var player = new jsmpeg(ws, { canvas: canvas, autoplay: true, audio: false, loop: true });*/
+    openVideo(9000, "videoCanvas");
+    //openVideo(9001, "videoCanvas2");
+    //openVideo(9002, "videoCanvas3");
+    var player;
+    function altercan(porta) {
+      document.getElementById("videoCanvas");
+      var url = ("ws://localhost:" + porta)
+      if (player) {
+        player.destroy();
+      }
+      var canvas = document.getElementById('videoCanvas2');
+      player = new JSMpeg.Player(url, { canvas: canvas, autoplay: true, audio: false, loop: true });
+      //openVideo(porta, "videoCanvas");
+    }
+    function stopVdeo(id, porta) {
+      var canvas = document.getElementById(id);
+      var ws = new WebSocket("ws://localhost:" + porta)
+      player = new jsmpeg(ws, { canvas: canvas, autoplay: true, audio: false, loop: true });
+    }
+
+    function openVideo(porta, id) {
+      var canvas = document.getElementById(id);
+      var ws = ("ws://localhost:" + porta)
+      player = new JSMpeg.Player(ws, { canvas: canvas, autoplay: true, audio: false, loop: true });
+    }
+  </script>
+
+<body>
+
+</body>
+
+</html>
